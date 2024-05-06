@@ -11,14 +11,12 @@ exports.createScript = async (req, res, next) => {
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
-    res
-      .status(200)
-      .json({
-        script: text,
-        title: req.body.title,
-        synopsis: req.body.synopsis,
-        genre: req.body.genre,
-      });
+    res.status(200).json({
+      script: text,
+      title: req.body.title,
+      synopsis: req.body.synopsis,
+      genre: req.body.genre,
+    });
   } catch (e) {
     res.status(500).json({ message: e.message });
   }
@@ -61,9 +59,24 @@ exports.getScripts = async (req, res, next) => {
 
 exports.editScript = async (req, res, next) => {
   try {
-   await Script.findByIdAndUpdate(req.body.id,{script:req.body.script});
+    await Script.findByIdAndUpdate(req.body.id, { script: req.body.script });
     return res.status(200).json({ message: "Success" });
   } catch (err) {
     return res.status(500).json({ message: err.message });
+  }
+};
+
+exports.getSynopsis = async (req, res, next) => {
+  try {
+    const synopsis = req.params.synopsis;
+    const genAI = new GoogleGenerativeAI(process.env.API_KEY);
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const prompt = `provide a suitable title for the synopsis  ${synopsis}`;
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const text = response.text();
+    return res.status(200).json({ title: text });
+  } catch (e) {
+    return res.status(500).json({ message: e.message });
   }
 };

@@ -12,4 +12,6 @@ router.post("/",userAuthentication.authenticate,scriptController.postScript);
 
 router.put("/",userAuthentication.authenticate,scriptController.editScript);
 
+router.get("/getTitle/:synopsis",userAuthentication.authenticate,scriptController.getSynopsis)
+
 module.exports = router;
