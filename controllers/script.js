@@ -1,7 +1,5 @@
 const GoogleGenerativeAI = require("@google/generative-ai").GoogleGenerativeAI;
-const script = require("../models/script");
 const Script = require("../models/script");
-const { ObjectId } = require("mongodb");
 
 exports.createScript = async (req, res, next) => {
   try {
@@ -18,6 +16,7 @@ exports.createScript = async (req, res, next) => {
       genre: req.body.genre,
     });
   } catch (e) {
+    console.log(e)
     res.status(500).json({ message: e.message });
   }
 };
@@ -44,7 +43,6 @@ exports.postScript = async (req, res, next) => {
 
 exports.getScripts = async (req, res, next) => {
   try {
-    console.log(req.user);
     const script = await Script.find({ userId: req.user._id.toString() });
     if (script.length > 0) {
       return res.status(200).json({ data: script });
