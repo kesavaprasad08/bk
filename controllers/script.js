@@ -68,7 +68,7 @@ exports.editScript = async (req, res, next) => {
 
 exports.getSynopsis = async (req, res, next) => {
   try {
-    const synopsis = req.params.synopsis;
+    const synopsis = req.body.synopsis;
     const genAI = new GoogleGenerativeAI(process.env.API_KEY);
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
     const prompt = `provide a suitable title for the synopsis  ${synopsis}`;
