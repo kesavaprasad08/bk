@@ -60,7 +60,6 @@ exports.loginUser = async (req, res, next) => {
 };
 
 exports.checkUser = (req,res,next)=>{
-  console.log(req.user)
   if(req.user){
     return res.status(200).json({success:true});
   }

@@ -5,7 +5,7 @@ exports.createScript = async (req, res, next) => {
   try {
     const genAI = new GoogleGenerativeAI(process.env.API_KEY);
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-    const prompt = `write a script for ${req.body.format} format, the title is ${req.body.title}, the synopsis is ${req.body.synopsis} and the genre is ${req.body.genre}`;
+    const prompt = `write a script for ${req.body.format} format, the title is ${req.body.title}, the synopsis is ${req.body.synopsis} and the genre is ${req.body.genre} in html paragraph format`;
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
